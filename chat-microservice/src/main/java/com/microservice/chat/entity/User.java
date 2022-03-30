@@ -1,6 +1,7 @@
 package com.microservice.chat.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,7 +13,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="username", length=50, nullable=false, unique = true)
+    @Column(name="username", nullable=false, unique = true)
+    @Size(max = 50, message = "username too long")
     private String username;
 
 

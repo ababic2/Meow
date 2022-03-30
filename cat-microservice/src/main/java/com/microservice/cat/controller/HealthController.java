@@ -2,7 +2,9 @@ package com.microservice.cat.controller;
 
 import com.microservice.cat.entity.Account;
 import com.microservice.cat.entity.Cat;
+import com.microservice.cat.entity.Description;
 import com.microservice.cat.entity.Health;
+import com.microservice.cat.exceptions.CatResponse;
 import com.microservice.cat.repository.CatRepository;
 import com.microservice.cat.repository.HealthRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/cat")
+@RequestMapping("/api/cat")
 public class HealthController {
 
     @Autowired
@@ -23,18 +25,34 @@ public class HealthController {
     }
 
     @GetMapping("/health/{id}") // done
-    public Health getHealth(@PathVariable Long id) {
-        return healthRepository.findById(id).get();
+    public CatResponse getHealth(@PathVariable Long id) {
+        try{
+            Health findHealth = healthRepository.findById(id).get();
+            return CatResponse.ok().setPayload(findHealth);
+        }catch (Exception e){
+            return CatResponse.notFound().setErrors(String.format("Health with id "+id+" was not found"));
+        }
     }
 
     @PostMapping("/health") // done
-    public Health createHealth(@RequestBody Health health) {
-        return healthRepository.save(health);
+    public CatResponse createHealth(@RequestBody Health health) {
+        try{
+            Health createHealth = healthRepository.save(health);
+            return CatResponse.ok().setPayload(createHealth);
+        }catch (Exception e){
+            return CatResponse.badRequest().setErrors(String.format("Error creating health "+e.getMessage()));
+        }
     }
 
     @DeleteMapping("/health/{id}") // done
-    public void deleteHealth(@PathVariable Long id) {
-        healthRepository.deleteById(id);
+    public CatResponse deleteHealth(@PathVariable Long id) {
+        try{
+            healthRepository.deleteById(id);
+            return CatResponse.ok().setMetadata("Health deleted");
+        }catch (Exception e){
+            return CatResponse.notFound().setErrors(String.format("Error deleting health "+e.getMessage()));
+        }
+
     }
 
     @PutMapping("/health/{id}") // done

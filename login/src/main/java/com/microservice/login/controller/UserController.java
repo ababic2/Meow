@@ -1,6 +1,7 @@
 package com.microservice.login.controller;
 
 import com.microservice.login.entity.User;
+import com.microservice.login.exceptions.LoginResponse;
 import com.microservice.login.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,33 +21,50 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @GetMapping("/user/{id}") // done
-    public User getUser(@PathVariable Long id) {
-        return userRepository.findById(id).get();
+    @GetMapping("/users/{id}") // done
+    public LoginResponse getUser(@PathVariable Long id) {
+        try{
+            User findUser = userRepository.findById(id).get();
+            return LoginResponse.ok().setPayload(findUser);
+        }catch (Exception e){
+            return LoginResponse.notFound().setErrors(String.format("User with id "+id+" was not found"));
+        }
+
     }
 
-    @PostMapping("/create")
-    User createUser(@RequestBody User user) {
-        return userRepository.save(user);
+    @PostMapping("/users")
+    LoginResponse createUser(@RequestBody User user) {
+        try {
+            User createUser =  userRepository.save(user);
+            return LoginResponse.ok().setPayload(createUser);
+        }catch(Exception e){
+            return LoginResponse.badRequest().setErrors(String.format("Error creating user "+e.getMessage()));
+        }
     }
 
-    @DeleteMapping("/delete/{id}") // done
-    public void deleteUser(@PathVariable Long id) {
-        Optional<User> user = userRepository.findById(id);
-        if(user.isPresent()) userRepository.deleteById(id);
+    @DeleteMapping("/users/{id}") // done
+    public LoginResponse deleteUser(@PathVariable Long id) {
+        try {
+            userRepository.deleteById(id);
+            return LoginResponse.ok().setMetadata(String.format("User deleted"));
+        }catch(Exception e){
+            return LoginResponse.notFound().setErrors(String.format("Error deleting user "+e.getMessage()));
+        }
     }
 
     @PutMapping("update/{id}")
-    public User updateUser(@RequestBody User user, @PathVariable Long id) {
+    public LoginResponse updateUser(@RequestBody User user, @PathVariable Long id) {
         User newUser = userRepository.findById(id).get();
-        if(newUser == null) return null;
 
         newUser.setUsername(user.getUsername());
         newUser.setEmail(user.getEmail());
         newUser.setPassword(user.getPassword());
         newUser.setCat(user.isCat());
-        userRepository.save(newUser);
-
-        return newUser;
+        try{
+            userRepository.save(newUser);
+            return LoginResponse.ok().setPayload(newUser);
+        }catch (Exception e){
+            return LoginResponse.ok().setErrors(String.format("User not updated: "+e.getMessage()));
+        }
     }
 }

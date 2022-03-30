@@ -1,6 +1,7 @@
 package com.microservice.chat.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
@@ -10,7 +11,8 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="content", length=50, nullable=false)
+    @Column(name="content", nullable=false)
+    @Size(max = 50, message = "message too long")
     private String messageContent;
 
     @Column(name = "createdAt")

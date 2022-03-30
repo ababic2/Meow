@@ -1,6 +1,7 @@
 package com.microservice.cat.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.sql.Date;
 
 @Entity
@@ -11,9 +12,11 @@ public class Illnesses {
     private Long id;
 
     @Column(name="illness", nullable=false)
+    @Size(min = 5, max = 30)
     private String illness;
 
-    @Column(name="therapy", nullable=true)
+    @Column(name="therapy")
+    @Size(min = 0, max = 200)
     private String therapy;
 
     @Column(name="date", nullable=false)

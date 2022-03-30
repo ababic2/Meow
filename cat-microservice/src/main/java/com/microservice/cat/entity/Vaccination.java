@@ -1,6 +1,7 @@
 package com.microservice.cat.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.sql.Date;
 
 @Entity
@@ -14,6 +15,7 @@ public class Vaccination {
     private Date date;
 
     @Column(name="vaccine", nullable=false)
+    @Size(min = 5, max = 20)
     private String vaccine;
 
     public Vaccination(Long id, Date date, String vaccine) {

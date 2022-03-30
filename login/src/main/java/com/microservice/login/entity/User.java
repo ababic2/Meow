@@ -1,6 +1,7 @@
 package com.microservice.login.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="user")
@@ -10,12 +11,15 @@ public class User {
     private Long id;
 
     @Column(name="username", nullable=false)
+    @Size(min=5, max=15, message = "username must be between 5 and 15 letters")
     private String username;
 
     @Column(name="email", nullable=false)
+    @Size(min=5, max=15, message = "email must be between 5 and 15 symbols")
     private String email;
 
     @Column(name="password", nullable=false)
+    @Size(min=5, message = "password must have more than 5 symbols")
     private String password;
 
     @Column(name="cat", nullable = false)

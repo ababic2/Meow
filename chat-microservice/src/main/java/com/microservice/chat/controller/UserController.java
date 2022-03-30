@@ -1,6 +1,8 @@
 package com.microservice.chat.controller;
 
+import com.microservice.chat.entity.Room;
 import com.microservice.chat.entity.User;
+import com.microservice.chat.exceptions.ChatResponse;
 import com.microservice.chat.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,27 +23,45 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}") // done
-    public User getUser(@PathVariable Long id) {
-        return userRepository.findById(id).get();
+    public ChatResponse getUser(@PathVariable Long id) {
+        try {
+            User findUser = userRepository.findById(id).get();
+            return ChatResponse.ok().setPayload(findUser);
+        }catch (Exception e){
+            return ChatResponse.notFound().setErrors(String.format("User with id "+id+" was not found"));
+        }
     }
 
     @PostMapping("/create")
-    User createUser(@RequestBody User user) {
-        return userRepository.save(user);
+    ChatResponse createUser(@RequestBody User user) {
+        try {
+            User createUser =  userRepository.save(user);
+            return ChatResponse.ok().setPayload(createUser);
+        }catch(Exception e){
+            return ChatResponse.badRequest().setErrors(String.format("Error creating user "+e.getMessage()));
+        }
     }
 
     @DeleteMapping("/delete/{id}") // done
-    public void deleteUser(@PathVariable Long id) {
-        Optional<User> user = userRepository.findById(id);
-        if(user.isPresent()) userRepository.deleteById(id);
+    public ChatResponse deleteUser(@PathVariable Long id) {
+        try {
+            userRepository.deleteById(id);
+            return ChatResponse.ok().setMetadata(String.format("User deleted"));
+        }catch(Exception e){
+            return ChatResponse.notFound().setErrors(String.format("Error deleting user "+e.getMessage()));
+        }
     }
 
     @PutMapping("/update/{id}")
-    public User updateUser(@RequestBody User user, @PathVariable Long id) {
+    public ChatResponse updateUser(@RequestBody User user, @PathVariable Long id) {
         User newUser = userRepository.findById(id).get();
         newUser.setUsername(user.getUsername());
-        userRepository.save(newUser);
-        return newUser;
+        try{
+            userRepository.save(newUser);
+            return ChatResponse.ok().setPayload(newUser);
+        }catch (Exception e){
+            return ChatResponse.ok().setErrors(String.format("User not updated: "+e.getMessage()));
+        }
     }
 
 
