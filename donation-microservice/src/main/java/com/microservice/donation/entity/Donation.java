@@ -3,6 +3,7 @@ package com.microservice.donation.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.util.Date;
 
 @Entity
@@ -13,6 +14,7 @@ public class Donation {
     private Long donation_id;
 
     @Column(name="amount", nullable=false)
+    @Min(value = 0, message = "donation amount can't be negative")
     private Float amount;
 
     @Column(name="date", nullable=false)

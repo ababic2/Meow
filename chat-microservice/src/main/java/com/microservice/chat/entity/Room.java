@@ -1,6 +1,7 @@
 package com.microservice.chat.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,7 +13,8 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="name", length=50, nullable=false)
+    @Column(name="name", nullable=false)
+    @Size(max = 50, message = "room name too long")
     private String name;
 
     @ManyToMany

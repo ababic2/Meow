@@ -2,6 +2,7 @@ package com.microservice.donation.controller;
 
 import com.microservice.donation.entity.Donation;
 import com.microservice.donation.entity.User;
+import com.microservice.donation.exceptions.DonationResponse;
 import com.microservice.donation.repository.DonationRepository;
 import com.microservice.donation.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,29 +26,50 @@ public class DonationController {
         return donationRepository.findAll();
     }
 
-    @PostMapping("/donate")
-    Donation createDonation(@RequestBody Donation donation) {
-        return donationRepository.save(donation);
+    @GetMapping("/donations/{id}") // done
+    public DonationResponse getDonation(@PathVariable Long id) {
+        try {
+            User findUser = userRepository.findById(id).get();
+            return DonationResponse.ok().setPayload(findUser);
+        }catch (Exception e){
+            return DonationResponse.notFound().setErrors(String.format("Donation with id "+id+" was not found"));
+        }
     }
 
-    @DeleteMapping("/delete/{id}") // done
-    public Donation deleteUser(@PathVariable Long id) {
-        Optional<Donation> donation = donationRepository.findById(id);
-        if(donation.isPresent()) donationRepository.deleteById(id);
-        return donation.get();
+    @PostMapping("/donations")
+    DonationResponse createDonation(@RequestBody Donation donation) {
+        try {
+            Donation createDonation = donationRepository.save(donation);
+            return DonationResponse.ok().setPayload(createDonation);
+        }catch (Exception e){
+            return DonationResponse.badRequest().setErrors(String.format("Error creating donation "+e.getMessage()));
+        }
+    }
+
+    @DeleteMapping("/donations/{id}") // done
+    public DonationResponse deleteUser(@PathVariable Long id) {
+        try {
+            donationRepository.deleteById(id);
+            return DonationResponse.ok().setMetadata(String.format("Donation deleted"));
+        }catch(Exception e){
+            return DonationResponse.notFound().setErrors(String.format("Error deleting donation "+e.getMessage()));
+        }
     }
 
     @PutMapping("update/{id}")
-    public Donation updateUser(@RequestBody Donation donation, @PathVariable Long id) {
+    public DonationResponse updateUser(@RequestBody Donation donation, @PathVariable Long id) {
         Donation updDon = donationRepository.findById(id).get();
         if(updDon == null) return null;
 
         updDon.setAmount(donation.getAmount());
         updDon.setDate(donation.getDate());
         updDon.setType(donation.getType());
-        //updDon.setUser(donation.getUser());
-        donationRepository.save(updDon);
 
-        return updDon;
+        try{
+            donationRepository.save(updDon);
+            return DonationResponse.ok().setPayload(updDon);
+        }catch (Exception e){
+            return DonationResponse.ok().setErrors(String.format("User not updated: "+e.getMessage()));
+        }
     }
 }

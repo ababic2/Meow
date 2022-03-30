@@ -1,6 +1,9 @@
 package com.microservice.cat.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="description")
@@ -10,15 +13,20 @@ public class Description {
     private Long id;
 
     @Column(name="name", nullable=false)
+    @Size(min = 3, max = 12, message = "name needs to have more than 3 and less than 12 letters")
     private String name;
 
     @Column(name="gender", nullable=false)
+    @Size(min = 2, max = 12, message = "gender needs to have more than 2 and less than 12 letters")
     private String gender;
 
     @Column(name="age", nullable=false)
+    @Min(value = 0, message = "Age can not be less than 0")
+    @Max(value = 30, message = "Age can not be more than 30s" ) // If someone gets mad that the max age is 30 they are a lucky person
     private Integer age;
 
     @Column(name="species", nullable=false)
+    @Size(min = 3, max = 15, message = "species needs to have more than 2 and less than 15 letters")
     private String species;
 
     public Description(Long id, String name, String gender, Integer age, String species) {

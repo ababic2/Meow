@@ -1,6 +1,7 @@
 package com.microservice.cat.controller;
 
 import com.microservice.cat.entity.Account;
+import com.microservice.cat.exceptions.CatResponse;
 import com.microservice.cat.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +10,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 @RestController
-@RequestMapping("/cat")
+@RequestMapping("/api/cat")
 public class AccountController {
 
     @Autowired
@@ -21,8 +22,13 @@ public class AccountController {
     }
 
     @GetMapping("/accounts/{id}") // done
-    public Account getAccounts(@PathVariable Long id) {
-        return accountRepository.findById(id).get();
+    public CatResponse getAccounts(@PathVariable Long id) {
+        try {
+            Account findAccount = accountRepository.findById(id).get();
+            return CatResponse.ok().setPayload(findAccount);
+        }catch (Exception e){
+            return CatResponse.notFound().setErrors(String.format("User with id "+id+" was not found"));
+        }
     }
 
 
@@ -32,8 +38,13 @@ public class AccountController {
     }
 
     @DeleteMapping("/accounts/{id}") // done
-    public void deleteAccount(@PathVariable Long id) {
-        accountRepository.deleteById(id);
+    public CatResponse deleteAccount(@PathVariable Long id) {
+        try {
+            accountRepository.deleteById(id);
+            return CatResponse.ok().setMetadata("Account deleted");
+        }catch(Exception e){
+            return CatResponse.notFound().setErrors(String.format("Error deleting user "+e.getMessage()));
+        }
     }
 
     @PutMapping("/accounts/{id}") // done
