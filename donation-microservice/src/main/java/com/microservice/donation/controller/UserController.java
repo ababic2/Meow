@@ -28,7 +28,9 @@ public class UserController {
     @DeleteMapping("/delete/{id}") // done
     public void deleteUser(@PathVariable Long id) {
         Optional<User> user = userRepository.findById(id);
-        if(user.isPresent()) userRepository.deleteById(id);
+        if(user.isPresent()) {
+            userRepository.deleteById(id);
+        }
     }
 
     @PutMapping("update/{id}")
