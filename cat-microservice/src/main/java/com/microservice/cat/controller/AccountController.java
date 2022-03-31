@@ -16,12 +16,12 @@ public class AccountController {
     @Autowired
     AccountRepository accountRepository;
 
-    @GetMapping("/accounts") // done
+    @GetMapping("/account") // done
     public List<Account> getAccounts() {
         return accountRepository.findAll();
     }
 
-    @GetMapping("/accounts/{id}") // done
+    @GetMapping("/account/{id}") // done
     public CatResponse getAccounts(@PathVariable Long id) {
         try {
             Account findAccount = accountRepository.findById(id).get();
@@ -32,12 +32,12 @@ public class AccountController {
     }
 
 
-    @PostMapping("/accounts") // done
+    @PostMapping("/account") // done
     public Account createAccount(@RequestBody Account account) {
         return accountRepository.save(account);
     }
 
-    @DeleteMapping("/accounts/{id}") // done
+    @DeleteMapping("/account/{id}") // done
     public CatResponse deleteAccount(@PathVariable Long id) {
         try {
             accountRepository.deleteById(id);
@@ -47,7 +47,7 @@ public class AccountController {
         }
     }
 
-    @PutMapping("/accounts/{id}") // done
+    @PutMapping("/account/{id}") // done
     public void updateAccount(@PathVariable Long id ,@RequestBody Account account) {
         //Since account only holds a copy of a real account ID creating this makes no sense
     }

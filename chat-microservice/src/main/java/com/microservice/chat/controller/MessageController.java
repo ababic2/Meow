@@ -14,12 +14,12 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/chat")
 public class MessageController {
     @Autowired
     MessageRepository messageRepository;
 
-    @GetMapping("/messages") // done
+    @GetMapping("/message") // done
     List<Message> getMessages() {
         return messageRepository.findAll();
     }
@@ -34,7 +34,7 @@ public class MessageController {
         }
     }
 
-    @PostMapping("/create")
+    @PostMapping("/message")
     ChatResponse createMessage(@RequestBody Message message) {
         try {
             Message createMessage = messageRepository.save(message);
@@ -44,7 +44,7 @@ public class MessageController {
         }
     }
 
-    @DeleteMapping("/delete/{id}") // done
+    @DeleteMapping("/message/{id}") // done
     public ChatResponse deleteMessage(@PathVariable Long id) {
         try {
             messageRepository.deleteById(id);
@@ -54,7 +54,7 @@ public class MessageController {
         }
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/message/{id}")
     public ChatResponse updateMessage(@RequestBody Message rmessage, @PathVariable Long id) {
         Message newMessage = messageRepository.findById(id).get();
         newMessage.setMessageContent(newMessage.getMessageContent());
