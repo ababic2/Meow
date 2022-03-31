@@ -79,7 +79,7 @@ class DonationApplicationTests {
 	@Test
 	@Order(8)
 	public void addDonation() throws Exception{
-		this.mockMvc.perform(post("/api/donation/donate")
+		this.mockMvc.perform(post("/api/donation/donations")
 				.content(" {\n" +
 						"     \"amount\": 13.8,\n" +
 						"     \"date\": \"2020-03-20\",\n" +
