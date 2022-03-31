@@ -1,10 +1,10 @@
 package com.microservice.donation.exceptions;
 
-import org.springframework.web.bind.annotation.ControllerAdvice;
-
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-@ControllerAdvice
+//@ControllerAdvice
 public class DonationResponse<T> {
 
     public enum Status {
@@ -21,7 +21,7 @@ public class DonationResponse<T> {
 
     private Status status;
     private T payload;
-    private Object errors;
+    private List<Object> errors = new ArrayList<>();
     private Object metadata;
 
     public static <T> DonationResponse<T> badRequest() {
@@ -100,7 +100,7 @@ public class DonationResponse<T> {
         return errors;
     }
 
-    public DonationResponse setErrors(Object errors) {
+    public DonationResponse setErrors(List<Object> errors) {
         this.errors = errors;
         return this;
     }
@@ -114,13 +114,13 @@ public class DonationResponse<T> {
         return this;
     }
 
-    public void addErrorMsgToResponse(String errorMsg, Exception ex) {
-        System.out.printf("\n\n\n\n Adding \n\n\n\n");
+    public DonationResponse addErrorMsgToResponse(String errorMsg, Exception ex) {
         DonationError error = new DonationError()
                 .setDetails(errorMsg)
                 .setMessage(ex.getMessage())
                 .setTimestamp(new Date());
-        setErrors(error);
+        errors.add(error);
+        return this;
     }
 
 }

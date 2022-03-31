@@ -7,6 +7,7 @@ import com.microservice.cat.repository.VaccinationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -26,17 +27,17 @@ public class VaccinationController {
             Vaccination findVaccination = vaccinationRepository.findById(id).get();
             return CatResponse.ok().setPayload(findVaccination);
         }catch (Exception e){
-            return CatResponse.notFound().setErrors(String.format("Vaccination with id "+id+" was not found"));
+            return CatResponse.notFound().addErrorMsgToResponse("Vaccination with id "+id+" was not found", e);
         }
     }
 
     @PostMapping("/vaccinations") // done
-    public CatResponse createVaccination(@RequestBody Vaccination vaccination) {
+    public CatResponse createVaccination(@Valid @RequestBody Vaccination vaccination) {
         try{
             Vaccination createVaccination = vaccinationRepository.save(vaccination);
             return CatResponse.ok().setPayload(createVaccination);
         }catch (Exception e){
-            return CatResponse.badRequest().setErrors(String.format("Error creating vaccination "+e.getMessage()));
+            return CatResponse.badRequest().addErrorMsgToResponse("Error creating vaccination ", e);
         }
     }
 
@@ -46,13 +47,13 @@ public class VaccinationController {
             vaccinationRepository.deleteById(id);
             return CatResponse.ok().setMetadata("Vaccination deleted");
         }catch (Exception e){
-            return CatResponse.notFound().setErrors(String.format("Error deleting vaccination "+e.getMessage()));
+            return CatResponse.notFound().addErrorMsgToResponse("Error deleting vaccination ",e);
         }
 
     }
 
     @PutMapping("/vaccinations/{id}") // done
-    public CatResponse updateVacination(@PathVariable Long id ,@RequestBody Vaccination vaccination) {
+    public CatResponse updateVacination(@PathVariable Long id ,@Valid @RequestBody Vaccination vaccination) {
         Vaccination updateVaccination = vaccinationRepository.getById(id);
         updateVaccination.setVaccine(vaccination.getVaccine());
         updateVaccination.setDate(vaccination.getDate());
@@ -60,7 +61,7 @@ public class VaccinationController {
             vaccinationRepository.save(updateVaccination);
             return CatResponse.ok().setPayload(updateVaccination);
         }catch (Exception e){
-            return CatResponse.ok().setErrors(String.format("Vaccination not updated: "+e.getMessage()));
+            return CatResponse.ok().addErrorMsgToResponse("Vaccination not updated: ", e);
         }
     }
 }

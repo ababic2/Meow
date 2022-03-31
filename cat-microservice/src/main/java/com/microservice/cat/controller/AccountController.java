@@ -6,6 +6,7 @@ import com.microservice.cat.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -27,13 +28,13 @@ public class AccountController {
             Account findAccount = accountRepository.findById(id).get();
             return CatResponse.ok().setPayload(findAccount);
         }catch (Exception e){
-            return CatResponse.notFound().setErrors(String.format("User with id "+id+" was not found"));
+            return CatResponse.notFound().addErrorMsgToResponse("User with id "+id+" was not found", e);
         }
     }
 
 
     @PostMapping("/accounts") // done
-    public Account createAccount(@RequestBody Account account) {
+    public Account createAccount(@Valid @RequestBody Account account) {
         return accountRepository.save(account);
     }
 
@@ -43,12 +44,12 @@ public class AccountController {
             accountRepository.deleteById(id);
             return CatResponse.ok().setMetadata("Account deleted");
         }catch(Exception e){
-            return CatResponse.notFound().setErrors(String.format("Error deleting user "+e.getMessage()));
+            return CatResponse.notFound().addErrorMsgToResponse("Error deleting user ",e);
         }
     }
 
     @PutMapping("/accounts/{id}") // done
-    public void updateAccount(@PathVariable Long id ,@RequestBody Account account) {
+    public void updateAccount(@PathVariable Long id ,@Valid @RequestBody Account account) {
         //Since account only holds a copy of a real account ID creating this makes no sense
     }
 

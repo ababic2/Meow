@@ -10,6 +10,7 @@ import com.microservice.cat.repository.HealthRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -30,17 +31,17 @@ public class HealthController {
             Health findHealth = healthRepository.findById(id).get();
             return CatResponse.ok().setPayload(findHealth);
         }catch (Exception e){
-            return CatResponse.notFound().setErrors(String.format("Health with id "+id+" was not found"));
+            return CatResponse.notFound().addErrorMsgToResponse("Health with id "+id+" was not found", e);
         }
     }
 
     @PostMapping("/health") // done
-    public CatResponse createHealth(@RequestBody Health health) {
+    public CatResponse createHealth(@Valid @RequestBody Health health) {
         try{
             Health createHealth = healthRepository.save(health);
             return CatResponse.ok().setPayload(createHealth);
         }catch (Exception e){
-            return CatResponse.badRequest().setErrors(String.format("Error creating health "+e.getMessage()));
+            return CatResponse.badRequest().addErrorMsgToResponse("Error creating health ",e);
         }
     }
 
@@ -50,13 +51,13 @@ public class HealthController {
             healthRepository.deleteById(id);
             return CatResponse.ok().setMetadata("Health deleted");
         }catch (Exception e){
-            return CatResponse.notFound().setErrors(String.format("Error deleting health "+e.getMessage()));
+            return CatResponse.notFound().addErrorMsgToResponse("Error deleting health ",e);
         }
 
     }
 
     @PutMapping("/health/{id}") // done
-    public void updateHealth(@PathVariable Long id ,@RequestBody Health health) {
+    public void updateHealth(@PathVariable Long id ,@Valid  @RequestBody Health health) {
         //Since health currently only holds an id no need for this
     }
 

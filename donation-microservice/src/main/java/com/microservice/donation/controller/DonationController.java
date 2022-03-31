@@ -8,8 +8,8 @@ import com.microservice.donation.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/donation")
@@ -32,17 +32,17 @@ public class DonationController {
             User findUser = userRepository.findById(id).get();
             return DonationResponse.ok().setPayload(findUser);
         }catch (Exception e){
-            return DonationResponse.notFound().setErrors(String.format("Donation with id "+id+" was not found"));
+            return DonationResponse.notFound().addErrorMsgToResponse("Donation with id "+id+" was not found", e);
         }
     }
 
     @PostMapping("/donations")
-    DonationResponse createDonation(@RequestBody Donation donation) {
+    DonationResponse createDonation(@Valid @RequestBody Donation donation) {
         try {
             Donation createDonation = donationRepository.save(donation);
             return DonationResponse.ok().setPayload(createDonation);
         }catch (Exception e){
-            return DonationResponse.badRequest().setErrors(String.format("Error creating donation "+e.getMessage()));
+            return DonationResponse.badRequest().addErrorMsgToResponse("Error creating donation ",e);
         }
     }
 
@@ -52,12 +52,12 @@ public class DonationController {
             donationRepository.deleteById(id);
             return DonationResponse.ok().setMetadata(String.format("Donation deleted"));
         }catch(Exception e){
-            return DonationResponse.notFound().setErrors(String.format("Error deleting donation "+e.getMessage()));
+            return DonationResponse.notFound().addErrorMsgToResponse("Error deleting donation ",e);
         }
     }
 
     @PutMapping("update/{id}")
-    public DonationResponse updateUser(@RequestBody Donation donation, @PathVariable Long id) {
+    public DonationResponse updateUser(@Valid @RequestBody Donation donation, @PathVariable Long id) {
         Donation updDon = donationRepository.findById(id).get();
         if(updDon == null) return null;
 
@@ -69,7 +69,7 @@ public class DonationController {
             donationRepository.save(updDon);
             return DonationResponse.ok().setPayload(updDon);
         }catch (Exception e){
-            return DonationResponse.ok().setErrors(String.format("User not updated: "+e.getMessage()));
+            return DonationResponse.ok().addErrorMsgToResponse("User not updated: ",e);
         }
     }
 }

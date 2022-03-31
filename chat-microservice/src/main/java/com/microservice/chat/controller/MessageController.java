@@ -10,6 +10,7 @@ import com.mysql.cj.protocol.MessageReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,17 +31,17 @@ public class MessageController {
             Message findMessage = messageRepository.findById(id).get();
             return ChatResponse.ok().setPayload(findMessage);
         }catch (Exception e){
-            return ChatResponse.notFound().setErrors(String.format("Message with id "+id+" was not found"));
+            return ChatResponse.notFound().addErrorMsgToResponse("Message with id "+id+" was not found", e);
         }
     }
 
     @PostMapping("/create")
-    ChatResponse createMessage(@RequestBody Message message) {
+    ChatResponse createMessage(@Valid @RequestBody Message message) {
         try {
             Message createMessage = messageRepository.save(message);
             return ChatResponse.ok().setPayload(createMessage);
         }catch(Exception e){
-            return ChatResponse.badRequest().setErrors(String.format("Error creating message "+e.getMessage()));
+            return ChatResponse.badRequest().addErrorMsgToResponse("Error creating message ",e);
         }
     }
 
@@ -50,12 +51,12 @@ public class MessageController {
             messageRepository.deleteById(id);
             return ChatResponse.ok().setMetadata(String.format("Message deleted"));
         }catch(Exception e){
-            return ChatResponse.notFound().setErrors(String.format("Error deleting message "+e.getMessage()));
+            return ChatResponse.notFound().addErrorMsgToResponse("Error deleting message ",e);
         }
     }
 
     @PutMapping("/update/{id}")
-    public ChatResponse updateMessage(@RequestBody Message rmessage, @PathVariable Long id) {
+    public ChatResponse updateMessage(@Valid @RequestBody Message rmessage, @PathVariable Long id) {
         Message newMessage = messageRepository.findById(id).get();
         newMessage.setMessageContent(newMessage.getMessageContent());
         newMessage.setCreatedAt(newMessage.getCreatedAt());
@@ -63,7 +64,7 @@ public class MessageController {
             messageRepository.save(newMessage);;
             return ChatResponse.ok().setPayload(newMessage);
         }catch (Exception e){
-            return ChatResponse.ok().setErrors(String.format("Message not updated: "+e.getMessage()));
+            return ChatResponse.ok().addErrorMsgToResponse("Message not updated: ",e);
         }
     }
 }

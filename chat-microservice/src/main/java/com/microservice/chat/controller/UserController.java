@@ -7,6 +7,7 @@ import com.microservice.chat.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,17 +29,17 @@ public class UserController {
             User findUser = userRepository.findById(id).get();
             return ChatResponse.ok().setPayload(findUser);
         }catch (Exception e){
-            return ChatResponse.notFound().setErrors(String.format("User with id "+id+" was not found"));
+            return ChatResponse.notFound().addErrorMsgToResponse("User with id "+id+" was not found", e);
         }
     }
 
     @PostMapping("/create")
-    ChatResponse createUser(@RequestBody User user) {
+    ChatResponse createUser(@Valid @RequestBody User user) {
         try {
             User createUser =  userRepository.save(user);
             return ChatResponse.ok().setPayload(createUser);
         }catch(Exception e){
-            return ChatResponse.badRequest().setErrors(String.format("Error creating user "+e.getMessage()));
+            return ChatResponse.badRequest().addErrorMsgToResponse("Error creating user ",e);
         }
     }
 
@@ -48,19 +49,19 @@ public class UserController {
             userRepository.deleteById(id);
             return ChatResponse.ok().setMetadata(String.format("User deleted"));
         }catch(Exception e){
-            return ChatResponse.notFound().setErrors(String.format("Error deleting user "+e.getMessage()));
+            return ChatResponse.notFound().addErrorMsgToResponse("Error deleting user ",e);
         }
     }
 
     @PutMapping("/update/{id}")
-    public ChatResponse updateUser(@RequestBody User user, @PathVariable Long id) {
+    public ChatResponse updateUser(@Valid @RequestBody User user, @PathVariable Long id) {
         User newUser = userRepository.findById(id).get();
         newUser.setUsername(user.getUsername());
         try{
             userRepository.save(newUser);
             return ChatResponse.ok().setPayload(newUser);
         }catch (Exception e){
-            return ChatResponse.ok().setErrors(String.format("User not updated: "+e.getMessage()));
+            return ChatResponse.ok().addErrorMsgToResponse("User not updated: ",e);
         }
     }
 

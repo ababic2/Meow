@@ -5,6 +5,7 @@ import com.microservice.donation.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +22,7 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    User createUser(@RequestBody User user) {
+    User createUser(@Valid @RequestBody User user) {
         return userRepository.save(user);
     }
 
@@ -34,7 +35,7 @@ public class UserController {
     }
 
     @PutMapping("update/{id}")
-    public User updateUser(@RequestBody User user, @PathVariable Long id) {
+    public User updateUser(@Valid @RequestBody User user, @PathVariable Long id) {
         User newUser = userRepository.findById(id).get();
         if(newUser == null) return null;
 
