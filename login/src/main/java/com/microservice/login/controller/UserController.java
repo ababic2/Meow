@@ -32,7 +32,7 @@ public class UserController {
 
     }
 
-    @PostMapping("/users")
+    @PostMapping("/user")
     LoginResponse createUser(@RequestBody User user) {
         try {
             User createUser =  userRepository.save(user);
@@ -42,7 +42,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/users/{id}") // done
+    @DeleteMapping("/user/{id}") // done
     public LoginResponse deleteUser(@PathVariable Long id) {
         try {
             userRepository.deleteById(id);
@@ -52,7 +52,7 @@ public class UserController {
         }
     }
 
-    @PutMapping("update/{id}")
+    @PutMapping("/user/{id}")
     public LoginResponse updateUser(@RequestBody User user, @PathVariable Long id) {
         User newUser = userRepository.findById(id).get();
 

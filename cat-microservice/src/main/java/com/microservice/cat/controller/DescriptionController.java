@@ -22,12 +22,12 @@ public class DescriptionController {
     @Autowired
     DescriptionRepository descriptionRepository;
 
-    @GetMapping("/descriptions") // done
+    @GetMapping("/description") // done
     public List<Description> getDescriptions() {
         return descriptionRepository.findAll();
     }
 
-    @GetMapping("/descriptions/{id}") // done
+    @GetMapping("/description/{id}") // done
     public CatResponse getDescription(@PathVariable Long id) {
         try{
             Description findDescription = descriptionRepository.findById(id).get();
@@ -37,7 +37,7 @@ public class DescriptionController {
         }
     }
 
-    @PostMapping("/descriptions") // done
+    @PostMapping("/description") // done
     public CatResponse createDescription(@RequestBody Description description) {
         try{
             Description createDescription = descriptionRepository.save(description);
@@ -47,7 +47,7 @@ public class DescriptionController {
         }
     }
 
-    @DeleteMapping("/descriptions/{id}") // done
+    @DeleteMapping("/description/{id}") // done
     public CatResponse deleteDescription(@PathVariable Long id) {
         try{
             descriptionRepository.deleteById(id);
@@ -57,7 +57,7 @@ public class DescriptionController {
         }
     }
 
-    @PutMapping("/descriptions/{id}") // done
+    @PutMapping("/description/{id}") // done
     public CatResponse updateDescription(@PathVariable Long id ,@RequestBody Description description) {
         Description updateDescription = descriptionRepository.findById(id).get();
 

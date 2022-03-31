@@ -15,12 +15,12 @@ public class VaccinationController {
     @Autowired
     VaccinationRepository vaccinationRepository;
 
-    @GetMapping("/vaccinations") // done
+    @GetMapping("/vaccination") // done
     public List<Vaccination> getVaccinations() {
         return vaccinationRepository.findAll();
     }
 
-    @GetMapping("/vaccinations/{id}") // done
+    @GetMapping("/vaccination/{id}") // done
     public CatResponse getVaccination(@PathVariable Long id) {
         try{
             Vaccination findVaccination = vaccinationRepository.findById(id).get();
@@ -30,7 +30,7 @@ public class VaccinationController {
         }
     }
 
-    @PostMapping("/vaccinations") // done
+    @PostMapping("/vaccination") // done
     public CatResponse createVaccination(@RequestBody Vaccination vaccination) {
         try{
             Vaccination createVaccination = vaccinationRepository.save(vaccination);
@@ -40,7 +40,7 @@ public class VaccinationController {
         }
     }
 
-    @DeleteMapping("/vaccinations/{id}") // done
+    @DeleteMapping("/vaccination/{id}") // done
     public CatResponse deleteVaccination(@PathVariable Long id) {
         try{
             vaccinationRepository.deleteById(id);
@@ -51,7 +51,7 @@ public class VaccinationController {
 
     }
 
-    @PutMapping("/vaccinations/{id}") // done
+    @PutMapping("/vaccination/{id}") // done
     public CatResponse updateVacination(@PathVariable Long id ,@RequestBody Vaccination vaccination) {
         Vaccination updateVaccination = vaccinationRepository.getById(id);
         updateVaccination.setVaccine(vaccination.getVaccine());

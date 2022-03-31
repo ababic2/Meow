@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/chat")
 public class UserController {
 
     @Autowired
     UserRepository userRepository;
 
-    @GetMapping("/users") // done
+    @GetMapping("/user") // done
     List<User> getUsers() {
         return userRepository.findAll();
     }
@@ -32,7 +32,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/create")
+    @PostMapping("/user")
     ChatResponse createUser(@RequestBody User user) {
         try {
             User createUser =  userRepository.save(user);
@@ -42,7 +42,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/delete/{id}") // done
+    @DeleteMapping("/user/{id}") // done
     public ChatResponse deleteUser(@PathVariable Long id) {
         try {
             userRepository.deleteById(id);
@@ -52,7 +52,7 @@ public class UserController {
         }
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/user/{id}")
     public ChatResponse updateUser(@RequestBody User user, @PathVariable Long id) {
         User newUser = userRepository.findById(id).get();
         newUser.setUsername(user.getUsername());

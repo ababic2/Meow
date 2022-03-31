@@ -19,12 +19,12 @@ public class IllnessesController {
     @Autowired
     IllnessRepository illnessRepository;
 
-    @GetMapping("/illnesses") // done
+    @GetMapping("/illness") // done
     public List<Illnesses> getIllnesses() {
         return illnessRepository.findAll();
     }
 
-    @GetMapping("/illnesses/{id}") // done
+    @GetMapping("/illness/{id}") // done
     public CatResponse getIllness(@PathVariable Long id) {
         try{
             Illnesses findIllnesses = illnessRepository.findById(id).get();
@@ -34,7 +34,7 @@ public class IllnessesController {
         }
     }
 
-    @PostMapping("/illnesses") // done
+    @PostMapping("/illness") // done
     public CatResponse createIllness(@RequestBody Illnesses illnesses) {
         try{
             Illnesses createIllnesse = illnessRepository.save(illnesses);
@@ -44,7 +44,7 @@ public class IllnessesController {
         }
     }
 
-    @DeleteMapping("/illnesses/{id}") // done
+    @DeleteMapping("/illness/{id}") // done
     public CatResponse deleteIllness(@PathVariable Long id) {
         try{
             illnessRepository.deleteById(id);
@@ -55,7 +55,7 @@ public class IllnessesController {
 
     }
 
-    @PutMapping("/illnesses/{id}") // done
+    @PutMapping("/illness/{id}") // done
     public CatResponse updateIllness(@PathVariable Long id ,@RequestBody Illnesses illnesses) {
         Illnesses updateIllness = illnessRepository.getById(id);
         updateIllness.setIllness(illnesses.getIllness());
