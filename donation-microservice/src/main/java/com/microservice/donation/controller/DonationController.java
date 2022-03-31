@@ -6,6 +6,7 @@ import com.microservice.donation.exceptions.DonationResponse;
 import com.microservice.donation.repository.DonationRepository;
 import com.microservice.donation.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,22 +22,62 @@ public class DonationController {
     @Autowired
     UserRepository userRepository;
 
-    @GetMapping("/donations") // done
+    @GetMapping("/") // done
     List<Donation> getDonations() {
         return donationRepository.findAll();
     }
 
-    @GetMapping("/donations/{id}") // done
+    @GetMapping("/{id}") // done
     public DonationResponse getDonation(@PathVariable Long id) {
         try {
-            User findUser = userRepository.findById(id).get();
-            return DonationResponse.ok().setPayload(findUser);
+            Donation findDonation = donationRepository.findById(id).get();
+            return DonationResponse.ok().setPayload(findDonation);
         }catch (Exception e){
             return DonationResponse.notFound().setErrors(String.format("Donation with id "+id+" was not found"));
         }
     }
 
-    @PostMapping("/donations")
+    @GetMapping("/top3")
+    public DonationResponse getTop3Donations(){
+        try{
+            List<Donation> top = donationRepository.findTop3ByOrderByAmountDesc();
+            return DonationResponse.ok().setPayload(top);
+        }catch (Exception e){
+            return DonationResponse.notFound().setErrors(String.format("Couldn't find top 3 donations"));
+        }
+    }
+    @GetMapping("/top")
+    public DonationResponse getTopDonation(){
+        try{
+            Donation top = donationRepository.findTopByOrderByAmountDesc();
+            return DonationResponse.ok().setPayload(top);
+        }catch (Exception e){
+            return DonationResponse.notFound().setErrors(String.format("Couldn't find top donations"));
+        }
+    }
+
+    @GetMapping("/top/{page}")
+    public DonationResponse getTopDonationsPage(@PathVariable String page){
+        try{
+            List<Donation> top = donationRepository.findTopUserDefined(PageRequest.of(Integer.parseInt(page),5));
+            return DonationResponse.ok().setPayload(top);
+        }catch (Exception e){
+            return DonationResponse.notFound().setErrors(String.format("Couldn't find page of top donations"));
+        }
+    }
+
+    @GetMapping("/byuser/{id}")
+    public DonationResponse getDonationsByUser(@PathVariable Long id){
+        try{
+            List<Donation> donations = donationRepository.findByUserId(userRepository.findById(id).get().getId());
+            return DonationResponse.ok().setPayload(donations);
+        }catch (Exception e){
+            System.out.println(e);
+            return DonationResponse.notFound().setErrors(String.format("Couldn't find top 3 donations"));
+        }
+    }
+
+    @PostMapping("/")
     DonationResponse createDonation(@RequestBody Donation donation) {
         try {
             Donation createDonation = donationRepository.save(donation);
@@ -46,7 +87,7 @@ public class DonationController {
         }
     }
 
-    @DeleteMapping("/donations/{id}") // done
+    @DeleteMapping("/{id}") // done
     public DonationResponse deleteUser(@PathVariable Long id) {
         try {
             donationRepository.deleteById(id);
@@ -56,7 +97,7 @@ public class DonationController {
         }
     }
 
-    @PutMapping("update/{id}")
+    @PutMapping("/{id}")
     public DonationResponse updateUser(@RequestBody Donation donation, @PathVariable Long id) {
         Donation updDon = donationRepository.findById(id).get();
         if(updDon == null) return null;
