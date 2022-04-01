@@ -11,24 +11,27 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
 @ControllerAdvice
-@RestController
 public class CatErrorHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
     CatResponse onMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         CatResponse error = new CatResponse();
         for (FieldError fieldError : ex.getBindingResult().getFieldErrors()) {
-            error.addErrorMsgToResponse(fieldError.getDefaultMessage(),null);
+            error.addErrorMsgToResponse(fieldError.getDefaultMessage(), ex);
         }
         return error;
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
     CatResponse onConstraintValidationException(
             ConstraintViolationException e) {
         CatResponse error = new CatResponse();
         for (ConstraintViolation violation : e.getConstraintViolations()) {
-            error.addErrorMsgToResponse(violation.getMessage(),null);
+            error.addErrorMsgToResponse(violation.getMessage(), e);
         }
         return error;
     }

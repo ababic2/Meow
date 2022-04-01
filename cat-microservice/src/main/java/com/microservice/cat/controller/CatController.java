@@ -9,6 +9,7 @@ import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -29,17 +30,17 @@ public class CatController {
             Cat findCat = catRepository.findById(id).get();
             return CatResponse.ok().setPayload(findCat);
         }catch (Exception e){
-            return CatResponse.notFound().setErrors(String.format("Cat with id "+id+" was not found"));
+            return CatResponse.notFound().addErrorMsgToResponse("Cat with id "+id+" was not found", e);
         }
     }
 
     @PostMapping("/") // done
-    public CatResponse createCat(@RequestBody Cat cat) {
+    public CatResponse createCat(@Valid @RequestBody Cat cat) {
         try {
             Cat createCat = catRepository.save(cat);
             return CatResponse.ok().setPayload(createCat);
         }catch(Exception e){
-            return CatResponse.badRequest().setErrors(String.format("Error creating cat "+e.getMessage()));
+            return CatResponse.badRequest().addErrorMsgToResponse("Error creating cat ",e);
         }
     }
 
@@ -49,12 +50,12 @@ public class CatController {
             catRepository.deleteById(id);
             return CatResponse.ok().setMetadata(String.format("Cat deleted"));
         }catch(Exception e){
-            return CatResponse.notFound().setErrors(String.format("Error deleting cat "+e.getMessage()));
+            return CatResponse.notFound().addErrorMsgToResponse("Error deleting cat ", e);
         }
     }
 
     @PutMapping("/{id}") // done
-    public CatResponse updateCat(@PathVariable Long id ,@RequestBody Cat cat) {
+    public CatResponse updateCat(@PathVariable Long id ,@Valid  @RequestBody Cat cat) {
         Cat updateCat = catRepository.getById(id);
         updateCat.setAccount(cat.getAccount());
         updateCat.setDescription(cat.getDescription());
@@ -63,7 +64,7 @@ public class CatController {
             catRepository.save(updateCat);
             return CatResponse.ok().setPayload(updateCat);
         }catch (Exception e){
-            return CatResponse.ok().setErrors(String.format("Cat not updated: "+e.getMessage()));
+            return CatResponse.ok().addErrorMsgToResponse("Cat not updated: ", e);
         }
 
     }

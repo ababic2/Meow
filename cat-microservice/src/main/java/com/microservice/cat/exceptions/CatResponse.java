@@ -3,9 +3,11 @@ package com.microservice.cat.exceptions;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-@ControllerAdvice
+//@ControllerAdvice
 public class CatResponse <T> {
 
     public enum Status {
@@ -22,7 +24,7 @@ public class CatResponse <T> {
 
     private Status status;
     private T payload;
-    private Object errors;
+    private List<Object> errors = new ArrayList<>();
     private Object metadata;
 
     public static <T> CatResponse<T> badRequest() {
@@ -101,7 +103,7 @@ public class CatResponse <T> {
         return errors;
     }
 
-    public CatResponse setErrors(Object errors) {
+    public CatResponse setErrors(List<Object> errors) {
         this.errors = errors;
         return this;
     }
@@ -115,13 +117,13 @@ public class CatResponse <T> {
         return this;
     }
 
-    public void addErrorMsgToResponse(String errorMsg, Exception ex) {
-        System.out.printf("\n\n\n\n Adding \n\n\n\n");
+    public CatResponse addErrorMsgToResponse(String errorMsg, Exception ex) {
         CatError error = new CatError()
                 .setDetails(errorMsg)
                 .setMessage(ex.getMessage())
                 .setTimestamp(new Date());
-        setErrors(error);
+        errors.add(error);
+        return this;
     }
 
 }

@@ -1,10 +1,10 @@
 package com.microservice.chat.exceptions;
 
-import org.springframework.web.bind.annotation.ControllerAdvice;
-
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-@ControllerAdvice
+//@ControllerAdvice
 public class ChatResponse<T> {
 
     public enum Status {
@@ -21,7 +21,7 @@ public class ChatResponse<T> {
 
     private Status status;
     private T payload;
-    private Object errors;
+    private List<Object> errors = new ArrayList<>();
     private Object metadata;
 
     public static <T> ChatResponse<T> badRequest() {
@@ -100,7 +100,7 @@ public class ChatResponse<T> {
         return errors;
     }
 
-    public ChatResponse setErrors(Object errors) {
+    public ChatResponse setErrors(List<Object> errors) {
         this.errors = errors;
         return this;
     }
@@ -114,13 +114,13 @@ public class ChatResponse<T> {
         return this;
     }
 
-    public void addErrorMsgToResponse(String errorMsg, Exception ex) {
-        System.out.printf("\n\n\n\n Adding \n\n\n\n");
+    public ChatResponse addErrorMsgToResponse(String errorMsg, Exception ex) {
         ChatError error = new ChatError()
                 .setDetails(errorMsg)
                 .setMessage(ex.getMessage())
                 .setTimestamp(new Date());
-        setErrors(error);
+        errors.add(error);
+        return this;
     }
 
 }

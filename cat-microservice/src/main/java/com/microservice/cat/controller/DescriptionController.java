@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,43 +23,43 @@ public class DescriptionController {
     @Autowired
     DescriptionRepository descriptionRepository;
 
-    @GetMapping("/description") // done
+    @GetMapping("/descriptions") // done
     public List<Description> getDescriptions() {
         return descriptionRepository.findAll();
     }
 
-    @GetMapping("/description/{id}") // done
+    @GetMapping("/descriptions/{id}") // done
     public CatResponse getDescription(@PathVariable Long id) {
         try{
             Description findDescription = descriptionRepository.findById(id).get();
             return CatResponse.ok().setPayload(findDescription);
         }catch (Exception e){
-            return CatResponse.notFound().setErrors(String.format("Description with id "+id+" was not found"));
+            return CatResponse.notFound().addErrorMsgToResponse("Description with id "+id+" was not found", e);
         }
     }
 
-    @PostMapping("/description") // done
-    public CatResponse createDescription(@RequestBody Description description) {
+    @PostMapping("/descriptions") // done
+    public CatResponse createDescription(@Valid @RequestBody Description description) {
         try{
             Description createDescription = descriptionRepository.save(description);
             return CatResponse.ok().setPayload(createDescription);
         }catch (Exception e){
-            return CatResponse.badRequest().setErrors(String.format("Error creating description "+e.getMessage()));
+            return CatResponse.badRequest().addErrorMsgToResponse("Error creating description ",e);
         }
     }
 
-    @DeleteMapping("/description/{id}") // done
+    @DeleteMapping("/descriptions/{id}") // done
     public CatResponse deleteDescription(@PathVariable Long id) {
         try{
             descriptionRepository.deleteById(id);
             return CatResponse.ok().setMetadata("Description deleted");
         }catch (Exception e){
-            return CatResponse.notFound().setErrors(String.format("Error deleting description "+e.getMessage()));
+            return CatResponse.notFound().addErrorMsgToResponse("Error deleting description ",e);
         }
     }
 
-    @PutMapping("/description/{id}") // done
-    public CatResponse updateDescription(@PathVariable Long id ,@RequestBody Description description) {
+    @PutMapping("/descriptions/{id}") // done
+    public CatResponse updateDescription(@PathVariable Long id ,@Valid @RequestBody Description description) {
         Description updateDescription = descriptionRepository.findById(id).get();
 
         updateDescription.setName(description.getName());
@@ -71,9 +72,8 @@ public class DescriptionController {
             descriptionRepository.save(updateDescription);
             return CatResponse.ok().setPayload(updateDescription);
         }catch (Exception e){
-            return CatResponse.ok().setErrors(String.format("Description not updated: "+e.getMessage()));
+            return CatResponse.ok().addErrorMsgToResponse("Description not updated: ",e);
         }
-
 
     }
 

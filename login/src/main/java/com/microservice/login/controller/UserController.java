@@ -6,8 +6,8 @@ import com.microservice.login.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -27,33 +27,33 @@ public class UserController {
             User findUser = userRepository.findById(id).get();
             return LoginResponse.ok().setPayload(findUser);
         }catch (Exception e){
-            return LoginResponse.notFound().setErrors(String.format("User with id "+id+" was not found"));
+            return LoginResponse.notFound().addErrorMsgToResponse("User with id "+id+" was not found", e);
         }
 
     }
 
-    @PostMapping("/user")
-    LoginResponse createUser(@RequestBody User user) {
+    @PostMapping("/users")
+    LoginResponse createUser(@Valid @RequestBody User user) {
         try {
             User createUser =  userRepository.save(user);
             return LoginResponse.ok().setPayload(createUser);
         }catch(Exception e){
-            return LoginResponse.badRequest().setErrors(String.format("Error creating user "+e.getMessage()));
+            return LoginResponse.badRequest().addErrorMsgToResponse("Error creating user ",e);
         }
     }
 
-    @DeleteMapping("/user/{id}") // done
+    @DeleteMapping("/users/{id}") // done
     public LoginResponse deleteUser(@PathVariable Long id) {
         try {
             userRepository.deleteById(id);
             return LoginResponse.ok().setMetadata(String.format("User deleted"));
         }catch(Exception e){
-            return LoginResponse.notFound().setErrors(String.format("Error deleting user "+e.getMessage()));
+            return LoginResponse.notFound().addErrorMsgToResponse("Error deleting user ",e);
         }
     }
 
-    @PutMapping("/user/{id}")
-    public LoginResponse updateUser(@RequestBody User user, @PathVariable Long id) {
+    @PutMapping("update/{id}")
+    public LoginResponse updateUser(@Valid @RequestBody User user, @PathVariable Long id) {
         User newUser = userRepository.findById(id).get();
 
         newUser.setUsername(user.getUsername());
@@ -64,7 +64,7 @@ public class UserController {
             userRepository.save(newUser);
             return LoginResponse.ok().setPayload(newUser);
         }catch (Exception e){
-            return LoginResponse.ok().setErrors(String.format("User not updated: "+e.getMessage()));
+            return LoginResponse.ok().addErrorMsgToResponse("User not updated: ",e);
         }
     }
 }

@@ -9,6 +9,7 @@ import com.microservice.cat.repository.ChipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -29,17 +30,17 @@ public class ChipController {
             Chip findChip = chipRepository.findById(id).get();
             return CatResponse.ok().setPayload(findChip);
         }catch (Exception e){
-            return CatResponse.notFound().setErrors(String.format("Chip with id "+id+" was not found"));
+            return CatResponse.notFound().addErrorMsgToResponse("Chip with id "+id+" was not found", e);
         }
     }
 
     @PostMapping("/chip") // done
-    public CatResponse createChip(@RequestBody Chip chip) {
+    public CatResponse createChip(@Valid @RequestBody Chip chip) {
         try{
             Chip createChip = chipRepository.save(chip);
             return CatResponse.ok().setPayload(createChip);
         }catch (Exception e){
-            return CatResponse.badRequest().setErrors(String.format("Error creating chip"));
+            return CatResponse.badRequest().addErrorMsgToResponse("Error creating chip", e);
         }
     }
 
@@ -49,13 +50,13 @@ public class ChipController {
             chipRepository.deleteById(id);
             return CatResponse.ok().setMetadata(String.format("Chip deleted"));
         }catch (Exception e){
-            return CatResponse.notFound().setErrors(String.format("Error deleting chip"));
+            return CatResponse.notFound().addErrorMsgToResponse("Error deleting chip", e);
         }
 
     }
 
     @PutMapping("/chip/{id}") // done
-    public void updateChip(@PathVariable Long id ,@RequestBody Cat cat) {
+    public void updateChip(@PathVariable Long id ,@Valid @RequestBody Cat cat) {
         //Since chip currently only holds an id no need for this
     }
 

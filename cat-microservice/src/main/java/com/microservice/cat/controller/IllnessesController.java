@@ -10,6 +10,7 @@ import com.microservice.cat.repository.IllnessRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -19,44 +20,44 @@ public class IllnessesController {
     @Autowired
     IllnessRepository illnessRepository;
 
-    @GetMapping("/illness") // done
+    @GetMapping("/illnesses") // done
     public List<Illnesses> getIllnesses() {
         return illnessRepository.findAll();
     }
 
-    @GetMapping("/illness/{id}") // done
+    @GetMapping("/illnesses/{id}") // done
     public CatResponse getIllness(@PathVariable Long id) {
         try{
             Illnesses findIllnesses = illnessRepository.findById(id).get();
             return CatResponse.ok().setPayload(findIllnesses);
         }catch (Exception e){
-            return CatResponse.notFound().setErrors(String.format("Illness with id "+id+" was not found"));
+            return CatResponse.notFound().addErrorMsgToResponse("Illness with id "+id+" was not found", e);
         }
     }
 
-    @PostMapping("/illness") // done
-    public CatResponse createIllness(@RequestBody Illnesses illnesses) {
+    @PostMapping("/illnesses") // done
+    public CatResponse createIllness(@Valid  @RequestBody Illnesses illnesses) {
         try{
             Illnesses createIllnesse = illnessRepository.save(illnesses);
             return CatResponse.ok().setPayload(createIllnesse);
         }catch (Exception e){
-            return CatResponse.badRequest().setErrors(String.format("Error creating illness "+e.getMessage()));
+            return CatResponse.badRequest().addErrorMsgToResponse("Error creating illness ",e);
         }
     }
 
-    @DeleteMapping("/illness/{id}") // done
+    @DeleteMapping("/illnesses/{id}") // done
     public CatResponse deleteIllness(@PathVariable Long id) {
         try{
             illnessRepository.deleteById(id);
             return CatResponse.ok().setMetadata("Illness deleted");
         }catch (Exception e){
-            return CatResponse.notFound().setErrors(String.format("Error deleting Illness "+e.getMessage()));
+            return CatResponse.notFound().addErrorMsgToResponse("Error deleting Illness ",e);
         }
 
     }
 
-    @PutMapping("/illness/{id}") // done
-    public CatResponse updateIllness(@PathVariable Long id ,@RequestBody Illnesses illnesses) {
+    @PutMapping("/illnesses/{id}") // done
+    public CatResponse updateIllness(@PathVariable Long id ,@Valid @RequestBody Illnesses illnesses) {
         Illnesses updateIllness = illnessRepository.getById(id);
         updateIllness.setIllness(illnesses.getIllness());
         updateIllness.setDate(illnesses.getDate());
@@ -65,7 +66,7 @@ public class IllnessesController {
             illnessRepository.save(updateIllness);
             return CatResponse.ok().setPayload(updateIllness);
         }catch (Exception e){
-            return CatResponse.ok().setErrors(String.format("Illness not updated: "+e.getMessage()));
+            return CatResponse.ok().addErrorMsgToResponse("Illness not updated: ",e);
         }
 
     }
