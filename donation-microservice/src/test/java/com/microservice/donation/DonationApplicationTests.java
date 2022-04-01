@@ -47,14 +47,14 @@ class DonationApplicationTests {
 	@Test
 	@Order(2)
 	public void testIfTableIsEmpty() throws Exception{
-		MvcResult result = this.mockMvc.perform(get("/api/user/users")).andDo(print()).andExpect(status().isOk()).andReturn();
+		MvcResult result = this.mockMvc.perform(get("/api/donation/user")).andDo(print()).andExpect(status().isOk()).andReturn();
 		System.out.println(result.getResponse().getContentAsString());
 		assertThat(result.getResponse().getContentLength()).isEqualTo(0);
 	}
 	@Test
 	@Order(3)
 	public void addUser() throws Exception{
-		this.mockMvc.perform(post("/api/user/create")
+		this.mockMvc.perform(post("/api/donation/user")
 				.content("{\"donated_sum\": 12}")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk()).andExpect(content().json("{\"id\": 1, \"donated_sum\": 12}"));
@@ -64,22 +64,36 @@ class DonationApplicationTests {
 	@Test
 	@Order(4)
 	public void checkIfUserWasAddedWithGet() throws Exception{
-		this.mockMvc.perform(get("/api/user/users")).andDo(print()).andExpect(status().isOk()).andExpect(
+		this.mockMvc.perform(get("/api/donation/user")).andDo(print()).andExpect(status().isOk()).andExpect(
 				content().json("[{\"id\": 1, \"donated_sum\": 12.0}]")
 		);
 	}
 	@Test
 	@Order(5)
 	public void updateUser() throws Exception{
-		this.mockMvc.perform(put("/api/user/update/1")
+		this.mockMvc.perform(put("/api/donation/user/1")
 				.content("{\"donated_sum\": 45}")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk()).andExpect(content().json("{\"donated_sum\": 45.0}"));
 	}
 	@Test
+	@Order(6)
+	public void addUser2() throws Exception{
+		this.mockMvc.perform(post("/api/donation/user")
+				.content("{\"donated_sum\": 35}")
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk()).andExpect(content().json("{\"id\": 2, \"donated_sum\": 35}"));
+	}
+	@Test
+	@Order(7)
+	public void deleteUser() throws Exception{
+		this.mockMvc.perform(delete("/api/donation/user/1"))
+				.andExpect(status().isOk());
+	}
+	@Test
 	@Order(8)
 	public void addDonation() throws Exception{
-		this.mockMvc.perform(post("/api/donation/donations")
+		this.mockMvc.perform(post("/api/donation/")
 				.content(" {\n" +
 						"     \"amount\": 13.8,\n" +
 						"     \"date\": \"2020-03-20\",\n" +
@@ -95,7 +109,7 @@ class DonationApplicationTests {
 	@Test
 	@Order(9)
 	public void updateDonation() throws Exception {
-		this.mockMvc.perform(put("/api/donation/update/1")
+		this.mockMvc.perform(put("/api/donation/1")
 				.content("{\n" +
 						"    \"amount\": 40,\n" +
 						"    \"date\": \"2020-03-20\",\n" +
@@ -107,21 +121,5 @@ class DonationApplicationTests {
 						"}")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
-	}
-	@Test
-	@Order(7)
-	public void deleteUser() throws Exception{
-		this.mockMvc.perform(delete("/api/user/delete/1"))
-				.andExpect(status().isOk());
-	}
-	@Test
-	@Order(6)
-	public void addUser2() throws Exception{
-		this.mockMvc.perform(post("/api/user/create")
-				.content("{\"donated_sum\": 35}")
-				.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk()).andExpect(content().json("{\"id\": 2, \"donated_sum\": 35}"));
-
-		//assertThat(result.getResponse().getContentLength()).isEqualTo(0);
 	}
 }
