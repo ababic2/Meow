@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/cat-microservice/cat.iml" filepath="$PROJECT_DIR$/cat-microservice/cat.iml" />
       <module fileurl="file://$PROJECT_DIR$/chat-microservice/chat.iml" filepath="$PROJECT_DIR$/chat-microservice/chat.iml" />
+      <module fileurl="file://$PROJECT_DIR$/configserver/configserver.iml" filepath="$PROJECT_DIR$/configserver/configserver.iml" />
       <module fileurl="file://$PROJECT_DIR$/donation-microservice/donation.iml" filepath="$PROJECT_DIR$/donation-microservice/donation.iml" />
-      <module fileurl="file://$PROJECT_DIR$/login/login.iml" filepath="$PROJECT_DIR$/login/login.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/microservices.iml" filepath="$PROJECT_DIR$/.idea/microservices.iml" />
     </modules>
   </component>

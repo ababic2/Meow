@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.springframework.boot:spring-boot-starter:2.6.7-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter/2.6.7-SNAPSHOT/spring-boot-starter-2.6.7-20220331.152642-1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter/2.6.7-SNAPSHOT/spring-boot-starter-2.6.7-20220331.152642-1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter/2.6.7-SNAPSHOT/spring-boot-starter-2.6.7-20220331.152642-1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

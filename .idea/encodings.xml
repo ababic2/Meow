@@ -5,6 +5,8 @@
     <file url="file://$PROJECT_DIR$/cat-microservice/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/chat-microservice/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/chat-microservice/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/configserver/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/configserver/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/donation-microservice/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/donation-microservice/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/login/src/main/java" charset="UTF-8" />
