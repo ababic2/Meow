@@ -11,7 +11,6 @@ import java.util.List;
 
 @Repository
 public interface DonationRepository extends JpaRepository<Donation, Long> {
-    //@Query("SELECT * FROM Donation ORDER BY amount LIMIT ?1")
     List<Donation> findTop3ByOrderByAmountDesc();
     Donation findTopByOrderByAmountDesc();
     List<Donation> findByUserId(Long id);
