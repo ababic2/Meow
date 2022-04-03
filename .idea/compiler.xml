@@ -7,14 +7,14 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="donation" />
-        <module name="login" />
+        <module name="configserver" />
         <module name="chat" />
-        <module name="cat" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="cat" target="11" />
       <module name="chat" target="11" />
+      <module name="configserver" target="11" />
       <module name="donation" target="11" />
       <module name="login" target="11" />
     </bytecodeTargetLevel>
@@ -23,6 +23,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="cat" options="-parameters" />
       <module name="chat" options="-parameters" />
+      <module name="configserver" options="-parameters" />
       <module name="donation" options="-parameters" />
       <module name="login" options="-parameters" />
     </option>
