@@ -5,6 +5,7 @@ import com.microservice.cat.exceptions.CatResponse;
 import com.microservice.cat.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
 import java.nio.file.Path;
@@ -25,6 +26,8 @@ public class AccountController {
     @GetMapping("/accounts/{id}") // done
     public CatResponse getAccounts(@PathVariable Long id) {
         try {
+            //RestTemplate restTemplate = new RestTemplate();
+            //restTemplate.getForObject("http://localhost:")
             Account findAccount = accountRepository.findById(id).get();
             return CatResponse.ok().setPayload(findAccount);
         }catch (Exception e){
