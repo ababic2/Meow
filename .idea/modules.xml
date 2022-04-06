@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Eureka/Eureka.iml" filepath="$PROJECT_DIR$/Eureka/Eureka.iml" />
       <module fileurl="file://$PROJECT_DIR$/cat-microservice/cat.iml" filepath="$PROJECT_DIR$/cat-microservice/cat.iml" />
+      <module fileurl="file://$PROJECT_DIR$/catmisc/catmisc.iml" filepath="$PROJECT_DIR$/catmisc/catmisc.iml" />
       <module fileurl="file://$PROJECT_DIR$/chat-microservice/chat.iml" filepath="$PROJECT_DIR$/chat-microservice/chat.iml" />
       <module fileurl="file://$PROJECT_DIR$/configserver/configserver.iml" filepath="$PROJECT_DIR$/configserver/configserver.iml" />
       <module fileurl="file://$PROJECT_DIR$/donation-microservice/donation.iml" filepath="$PROJECT_DIR$/donation-microservice/donation.iml" />
