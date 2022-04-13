@@ -10,6 +10,7 @@ import com.microservice.cat.repository.DescriptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -22,10 +23,17 @@ public class DescriptionController {
 
     @Autowired
     DescriptionRepository descriptionRepository;
+    @Autowired
+    private RestTemplate restTemplate;
 
     @GetMapping("/descriptions") // done
-    public List<Description> getDescriptions() {
-        return descriptionRepository.findAll();
+    public CatResponse getDescriptions() {
+        try{
+            List<Description> findDescriptions = descriptionRepository.findAll();
+            return CatResponse.ok().setPayload(findDescriptions);
+        }catch (Exception e){
+            return CatResponse.notFound().addErrorMsgToResponse("Descriptions error", e);
+        }
     }
 
     @GetMapping("/descriptions/{id}") // done

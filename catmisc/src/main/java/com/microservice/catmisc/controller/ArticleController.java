@@ -4,7 +4,9 @@ import com.microservice.catmisc.entity.Article;
 import com.microservice.catmisc.exceptions.CatMiscResponse;
 import com.microservice.catmisc.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -15,6 +17,8 @@ public class ArticleController {
 
     @Autowired
     ArticleRepository articleRepository;
+    @Autowired
+    private RestTemplate restTemplate;
 
     @GetMapping("/articles") // done
     public List<Article> getArticles() {
@@ -64,6 +68,14 @@ public class ArticleController {
             return CatMiscResponse.ok().addErrorMsgToResponse("Article not updated: ",e);
         }
 
+    }
+
+    @GetMapping("/rndcat")
+    public CatMiscResponse handleRequest(Model model) {
+        //accessing hello-service
+        CatMiscResponse loginResponse = restTemplate.getForObject("http://cat-microservice/api/cat/descriptions", CatMiscResponse.class);
+        System.out.println(loginResponse);
+        return loginResponse;
     }
 
 }

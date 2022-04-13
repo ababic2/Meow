@@ -10,18 +10,24 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/login")
 public class UserController {
 
     @Autowired
     UserRepository userRepository;
 
     @GetMapping("/users") // done
-    public List<User> getUsers() {
-        return userRepository.findAll();
+    public LoginResponse getUsers() {
+        try{
+            List<User> findUsers = userRepository.findAll();
+            return LoginResponse.ok().setPayload(findUsers);
+        }catch (Exception e){
+            return LoginResponse.notFound().addErrorMsgToResponse("Error getting users", e);
+        }
+
     }
 
-    @GetMapping("/users/{id}") // done
+    @GetMapping("/user/{id}") // done
     public LoginResponse getUser(@PathVariable Long id) {
         try{
             User findUser = userRepository.findById(id).get();
@@ -32,7 +38,7 @@ public class UserController {
 
     }
 
-    @PostMapping("/users")
+    @PostMapping("/create")
     LoginResponse createUser(@Valid @RequestBody User user) {
         try {
             User createUser =  userRepository.save(user);
@@ -42,7 +48,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/users/{id}") // done
+    @DeleteMapping("/delete/{id}") // done
     public LoginResponse deleteUser(@PathVariable Long id) {
         try {
             userRepository.deleteById(id);
@@ -52,7 +58,7 @@ public class UserController {
         }
     }
 
-    @PutMapping("update/{id}")
+    @PutMapping("/users/{id}")
     public LoginResponse updateUser(@Valid @RequestBody User user, @PathVariable Long id) {
         User newUser = userRepository.findById(id).get();
 

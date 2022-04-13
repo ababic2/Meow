@@ -61,7 +61,6 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-orm:5.3.16" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context:5.3.16" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-tx:5.3.16" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-beans:5.3.16" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.36" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aspects:5.3.16" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-web:2.6.4" level="project" />
@@ -85,7 +84,6 @@
     <orderEntry type="library" name="Maven: org.apache.tomcat.embed:tomcat-embed-core:9.0.58" level="project" />
     <orderEntry type="library" name="Maven: org.apache.tomcat.embed:tomcat-embed-el:9.0.58" level="project" />
     <orderEntry type="library" name="Maven: org.apache.tomcat.embed:tomcat-embed-websocket:9.0.58" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-web:5.3.16" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:5.3.16" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:5.3.16" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:3.1.1" level="project" />
@@ -164,5 +162,7 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.xmlunit:xmlunit-core:2.8.4" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.assertj:assertj-core:3.22.0" level="project" />
     <orderEntry type="library" name="Maven: jakarta.validation:jakarta.validation-api:2.0.2" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-web:5.3.16" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-beans:5.3.16" level="project" />
   </component>
 </module>
