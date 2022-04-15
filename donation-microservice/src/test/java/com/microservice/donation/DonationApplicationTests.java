@@ -31,8 +31,6 @@ class DonationApplicationTests {
 	private UserRepository userRepository;
 	@Autowired
 	private DonationRepository donationRepository;
-	@Autowired
-	private ObjectMapper objectMapper;
 
 	@Test
 	@Order(1)
@@ -44,6 +42,7 @@ class DonationApplicationTests {
 		userRepository.deleteAll();
 		userRepository.flush();
 	}
+	/*
 	@Test
 	@Order(2)
 	public void testIfTableIsEmpty() throws Exception{
@@ -122,4 +121,5 @@ class DonationApplicationTests {
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
 	}
+	 */
 }

@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="systemevents" />
         <module name="chat" />
         <module name="catmisc" />
         <module name="cat" />
@@ -28,6 +29,7 @@
       <module name="login" target="11" />
       <module name="login (1)" target="11" />
       <module name="loginweb" target="11" />
+      <module name="systemevents" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -42,6 +44,7 @@
       <module name="login" options="-parameters" />
       <module name="login (1)" options="-parameters" />
       <module name="loginweb" options="-parameters" />
+      <module name="systemevents" options="-parameters" />
     </option>
   </component>
 </project>

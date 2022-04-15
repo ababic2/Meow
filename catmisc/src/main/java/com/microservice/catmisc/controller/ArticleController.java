@@ -79,16 +79,14 @@ public class ArticleController {
 
     @GetMapping("/rndcat")
     public CatMiscResponse handleRequest(Model model) {
-        //accessing hello-service
-        CatMiscResponse loginResponse = restTemplate.getForObject("http://cat-microservice/api/cat/descriptions", CatMiscResponse.class);
-        System.out.println(loginResponse.getPayload());
+        CatMiscResponse responseCat = restTemplate.getForObject("http://cat-microservice/api/cat/descriptions", CatMiscResponse.class);
+        System.out.println(responseCat.getPayload());
         Random rand = new Random();
-        String random = loginResponse.getPayload().toString().replaceAll("=",":");
+        String random = responseCat.getPayload().toString().replaceAll("=",":");
         System.out.println(random);
         JSONArray jsonArray = new JSONArray(random);
         JSONObject object = jsonArray.getJSONObject(rand.nextInt(jsonArray.length()));
         System.out.println(object);
         return CatMiscResponse.ok().setPayload(object.toString());
     }
-
 }

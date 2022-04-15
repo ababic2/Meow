@@ -18,5 +18,7 @@
     <file url="file://$PROJECT_DIR$/login/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/loginweb/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/loginweb/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/systemevents/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/systemevents/src/main/resources" charset="UTF-8" />
   </component>
 </project>

@@ -1,0 +1,21 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package org.baeldung.grpc;
+
+message EventRequest {
+  string timestamp = 1;
+  string service = 2;
+  string user = 3;
+  string action = 4;
+  string resource = 5;
+  string status = 6;
+}
+
+message EventResponse {
+  string response = 1;
+}
+
+service EventService{
+  rpc event(EventRequest) returns (EventResponse);
+}
+
