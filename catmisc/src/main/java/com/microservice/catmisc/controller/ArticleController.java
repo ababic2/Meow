@@ -3,13 +3,20 @@ package com.microservice.catmisc.controller;
 import com.microservice.catmisc.entity.Article;
 import com.microservice.catmisc.exceptions.CatMiscResponse;
 import com.microservice.catmisc.repository.ArticleRepository;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
-import java.util.List;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/api/catmisc")
@@ -74,8 +81,14 @@ public class ArticleController {
     public CatMiscResponse handleRequest(Model model) {
         //accessing hello-service
         CatMiscResponse loginResponse = restTemplate.getForObject("http://cat-microservice/api/cat/descriptions", CatMiscResponse.class);
-        System.out.println(loginResponse);
-        return loginResponse;
+        System.out.println(loginResponse.getPayload());
+        Random rand = new Random();
+        String random = loginResponse.getPayload().toString().replaceAll("=",":");
+        System.out.println(random);
+        JSONArray jsonArray = new JSONArray(random);
+        JSONObject object = jsonArray.getJSONObject(rand.nextInt(jsonArray.length()));
+        System.out.println(object);
+        return CatMiscResponse.ok().setPayload(object.toString());
     }
 
 }

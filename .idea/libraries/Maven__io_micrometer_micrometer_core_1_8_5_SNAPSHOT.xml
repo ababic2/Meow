@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Maven: io.micrometer:micrometer-core:1.8.5-SNAPSHOT">
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/io/micrometer/micrometer-core/1.8.5-SNAPSHOT/micrometer-core-1.8.5-20220408.051909-3.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/io/micrometer/micrometer-core/1.8.5-SNAPSHOT/micrometer-core-1.8.5-20220414.072209-4.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$MAVEN_REPOSITORY$/io/micrometer/micrometer-core/1.8.5-SNAPSHOT/micrometer-core-1.8.5-20220408.051909-3-javadoc.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/io/micrometer/micrometer-core/1.8.5-SNAPSHOT/micrometer-core-1.8.5-20220414.072209-4-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$MAVEN_REPOSITORY$/io/micrometer/micrometer-core/1.8.5-SNAPSHOT/micrometer-core-1.8.5-20220408.051909-3-sources.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/io/micrometer/micrometer-core/1.8.5-SNAPSHOT/micrometer-core-1.8.5-20220414.072209-4-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
