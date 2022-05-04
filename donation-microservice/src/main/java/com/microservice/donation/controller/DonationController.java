@@ -12,7 +12,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/donation")
+@RequestMapping("/donation")
 public class DonationController {
 
     @Autowired

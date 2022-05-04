@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @Validated
-@RequestMapping("/api/cat")
+@RequestMapping("/cat")
 public class DescriptionController {
 
     @Autowired

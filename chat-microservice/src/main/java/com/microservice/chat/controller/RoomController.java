@@ -15,7 +15,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/chat")
 public class RoomController {
     @Autowired
     RoomRepository roomRepository;
@@ -35,7 +35,7 @@ public class RoomController {
         }
     }
 
-    @PostMapping("/create")
+    @PostMapping("/room")
     ChatResponse createRoom(@Valid @RequestBody Room room) {
         try {
             Room createRoom = roomRepository.save(room);
@@ -45,7 +45,7 @@ public class RoomController {
         }
     }
 
-    @DeleteMapping("/delete/{id}") // done
+    @DeleteMapping("/room/{id}") // done
     public ChatResponse deleteRoom(@PathVariable Long id) {
         try {
             roomRepository.deleteById(id);
@@ -55,7 +55,7 @@ public class RoomController {
         }
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/room/{id}")
     public ChatResponse updateRoom(@Valid @RequestBody Room room, @PathVariable Long id) {
         Room newRoom = roomRepository.findById(id).get();
         newRoom.setName(room.getName());

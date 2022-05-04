@@ -16,6 +16,7 @@
         <option value="$PROJECT_DIR$/catmisc/pom.xml" />
         <option value="$PROJECT_DIR$/grpc/pom.xml" />
         <option value="$PROJECT_DIR$/systemevents/pom.xml" />
+        <option value="$PROJECT_DIR$/springcloudgateway/pom.xml" />
       </list>
     </option>
   </component>

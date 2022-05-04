@@ -10,7 +10,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/login")
+@RequestMapping("/login")
 public class UserController {
 
     @Autowired

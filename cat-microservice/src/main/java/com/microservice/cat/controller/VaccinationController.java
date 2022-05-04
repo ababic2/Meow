@@ -11,7 +11,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/cat")
+@RequestMapping("/cat")
 public class VaccinationController {
     @Autowired
     VaccinationRepository vaccinationRepository;

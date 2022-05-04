@@ -12,7 +12,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/cat")
+@RequestMapping("/cat")
 public class AccountController {
 
     @Autowired

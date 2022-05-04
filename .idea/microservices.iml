@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/cat-microservice/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/login/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/systemevents/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/springcloudgateway/src" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
