@@ -10,7 +10,6 @@
       <module fileurl="file://$PROJECT_DIR$/donation-microservice/donation.iml" filepath="$PROJECT_DIR$/donation-microservice/donation.iml" />
       <module fileurl="file://$PROJECT_DIR$/grpc/grpc.iml" filepath="$PROJECT_DIR$/grpc/grpc.iml" />
       <module fileurl="file://$PROJECT_DIR$/login/login.iml" filepath="$PROJECT_DIR$/login/login.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/microservices.iml" filepath="$PROJECT_DIR$/.idea/microservices.iml" />
       <module fileurl="file://$PROJECT_DIR$/springcloudgateway/springcloudgateway.iml" filepath="$PROJECT_DIR$/springcloudgateway/springcloudgateway.iml" />
       <module fileurl="file://$PROJECT_DIR$/systemevents/systemevents.iml" filepath="$PROJECT_DIR$/systemevents/systemevents.iml" />
     </modules>
