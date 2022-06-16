@@ -14,16 +14,19 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/cat")
+
 public class CatController {
 
     @Autowired
     CatRepository catRepository;
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/") // done
     public List<Cat> getCats() {
         return catRepository.findAll();
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{id}") // done
     public CatResponse getCat(@PathVariable Long id) {
         try {
@@ -35,7 +38,10 @@ public class CatController {
     }
 
     @PostMapping("/") // done
-    public CatResponse createCat(@Valid @RequestBody Cat cat) {
+//@CrossOrigin(origins = "http://localhost:3000")
+//@RequestMapping(value = "/", method = RequestMethod.POST, consumes="text/plain")
+
+public CatResponse createCat(@Valid @RequestBody Cat cat) {
         try {
             Cat createCat = catRepository.save(cat);
             return CatResponse.ok().setPayload(createCat);
@@ -43,6 +49,7 @@ public class CatController {
             return CatResponse.badRequest().addErrorMsgToResponse("Error creating cat ",e);
         }
     }
+
 
     @DeleteMapping("/{id}") // done
     public CatResponse deleteCat(@PathVariable Long id) {
@@ -54,12 +61,13 @@ public class CatController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/{id}") // done
     public CatResponse updateCat(@PathVariable Long id ,@Valid  @RequestBody Cat cat) {
         Cat updateCat = catRepository.getById(id);
         updateCat.setAccount(cat.getAccount());
         updateCat.setDescription(cat.getDescription());
-        updateCat.setHealth(cat.getHealth());
+        updateCat.setHealthy(cat.isHealthy());
         try{
             catRepository.save(updateCat);
             return CatResponse.ok().setPayload(updateCat);

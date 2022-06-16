@@ -1,12 +1,19 @@
 package com.microservice.login.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.microservice.login.config.JwtTokenUtil;
+import com.microservice.login.entity.LoginRequest;
 import com.microservice.login.entity.User;
 import com.microservice.login.exceptions.LoginResponse;
 import com.microservice.login.repository.UserRepository;
+import com.microservice.login.services.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @RestController
@@ -15,6 +22,15 @@ public class UserController {
 
     @Autowired
     UserRepository userRepository;
+
+    private final JwtTokenUtil jwtTokenUtil;
+    private final LoginService loginService;
+
+
+    public UserController(JwtTokenUtil jwtTokenUtil, LoginService loginService) {
+        this.jwtTokenUtil = jwtTokenUtil;
+        this.loginService = loginService;
+    }
 
     @GetMapping("/users") // done
     public LoginResponse getUsers() {
@@ -25,6 +41,18 @@ public class UserController {
             return LoginResponse.notFound().addErrorMsgToResponse("Error getting users", e);
         }
 
+    }
+
+    @PostMapping("/log")
+    public ResponseEntity<?> loginAsClientOrInstructor(@RequestBody LoginRequest loginRequest) {
+        System.out.println("***************************************");
+        System.out.println(loginRequest.getUserName());
+        return loginService.login(loginRequest);
+    }
+
+    @GetMapping("/whoAmI")
+    public  ResponseEntity<?> whoAmI(@RequestHeader("Authorization") String token) throws JsonProcessingException, UnsupportedEncodingException {
+        return new ResponseEntity<>(jwtTokenUtil.getTokenSubject(token), HttpStatus.OK);
     }
 
     @GetMapping("/user/{id}") // done
@@ -62,7 +90,7 @@ public class UserController {
     public LoginResponse updateUser(@Valid @RequestBody User user, @PathVariable Long id) {
         User newUser = userRepository.findById(id).get();
 
-        newUser.setUsername(user.getUsername());
+        newUser.setUserName(user.getUserName());
         newUser.setEmail(user.getEmail());
         newUser.setPassword(user.getPassword());
         newUser.setCat(user.isCat());

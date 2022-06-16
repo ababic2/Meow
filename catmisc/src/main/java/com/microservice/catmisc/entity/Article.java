@@ -16,10 +16,6 @@ public class Article {
     @Size(min = 3, max = 50, message = "title needs to have more than 3 and less than 50 letters")
     private String title;
 
-    @Column(name="catBreed")
-    @Size(min = 2, max = 20, message = "catBreed needs to have more than 2 and less than 20 letters")
-    private String catBreed;
-
     @Column(name="content", nullable=false)
     private String content;
 
@@ -39,14 +35,6 @@ public class Article {
         this.title = title;
     }
 
-    public String getCatBreed() {
-        return catBreed;
-    }
-
-    public void setCatBreed(String catBreed) {
-        this.catBreed = catBreed;
-    }
-
     public String getContent() {
         return content;
     }
@@ -58,27 +46,26 @@ public class Article {
     public Article() {
     }
 
-    public Article(Long id, String title, String catBreed, String content, Wikipawdia wikipawdia) {
+    public Article(Long id, String title, String content) {
         this.id = id;
         this.title = title;
-        this.catBreed = catBreed;
         this.content = content;
-        this.wikipawdia = wikipawdia;
+//        this.wikipawdia = wikipawdia;
     }
 
-    public Wikipawdia getWikipawdia() {
-        return wikipawdia;
-    }
-
-    public void setWikipawdia(Wikipawdia wikipawdia) {
-        this.wikipawdia = wikipawdia;
-    }
-
-
-
-    @ManyToOne(cascade = CascadeType.MERGE )
-    @JoinColumn(name = "wikipawdia_id", referencedColumnName = "id")
-    private Wikipawdia wikipawdia;
+//    public Wikipawdia getWikipawdia() {
+//        return wikipawdia;
+//    }
+//
+//    public void setWikipawdia(Wikipawdia wikipawdia) {
+//        this.wikipawdia = wikipawdia;
+//    }
+//
+//
+//
+//    @ManyToOne(cascade = CascadeType.MERGE )
+//    @JoinColumn(name = "wikipawdia_id", referencedColumnName = "id")
+//    private Wikipawdia wikipawdia;
 
 
 }

@@ -26,10 +26,10 @@ public class DonationController {
         return donationRepository.findAll();
     }
 
-    @GetMapping("/donations/{id}") // done
+    @GetMapping("/{id}") // done
     public DonationResponse getDonation(@PathVariable Long id) {
         try {
-            User findUser = userRepository.findById(id).get();
+            Donation findUser = donationRepository.findById(id).get();
             return DonationResponse.ok().setPayload(findUser);
         }catch (Exception e){
             return DonationResponse.notFound().addErrorMsgToResponse("Donation with id "+id+" was not found", e);
@@ -56,7 +56,7 @@ public class DonationController {
         }
     }
 
-    @PutMapping("update/{id}")
+    @PutMapping("/update/{id}")
     public DonationResponse updateUser(@Valid @RequestBody Donation donation, @PathVariable Long id) {
         Donation updDon = donationRepository.findById(id).get();
         if(updDon == null) return null;

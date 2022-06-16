@@ -17,6 +17,10 @@ public class Donation {
     @Min(value = 0, message = "donation amount can't be negative")
     private Float amount;
 
+    @Column(name="donatedSum", nullable=false)
+    @Min(value = 0, message = "donation amount can't be negative")
+    private Float donatedSum;
+
     @Column(name="date", nullable=false)
     private Date date;
 
@@ -31,8 +35,9 @@ public class Donation {
     public Donation() {
     }
 
-    public Donation(Float amount, Date date, String type, User user) {
+    public Donation(Float amount, Float donatedSum, Date date, String type, User user) {
         this.amount = amount;
+        this.donatedSum = donatedSum;
         this.date = date;
         this.type = type;
         this.user = user;
@@ -76,5 +81,13 @@ public class Donation {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Float getDonatedSum() {
+        return donatedSum;
+    }
+
+    public void setDonatedSum(Float donatedSum) {
+        this.donatedSum = donatedSum;
     }
 }

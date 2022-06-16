@@ -12,7 +12,7 @@ public class User {
 
     @Column(name="username", nullable=false)
     @Size(min=5, max=15, message = "username must be between 5 and 15 letters")
-    private String username;
+    private String userName;
 
     @Column(name="email", nullable=false)
     @Size(min=5, max=15, message = "email must be between 5 and 15 symbols")
@@ -25,12 +25,17 @@ public class User {
     @Column(name="cat", nullable = false)
     private boolean cat;
 
+    @Column(name = "role")
+    private int role;
 
-    public User(String username, String email, String password, boolean cat) {
-        this.username = username;
+
+    public User(Long id, String userName, String email, String password, boolean cat, int role) {
+        this.id = id;
+        this.userName = userName;
         this.email = email;
         this.password = password;
         this.cat = cat;
+        this.role = role;
     }
 
     public User(){}
@@ -43,12 +48,12 @@ public class User {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String username) {
+        this.userName = username;
     }
 
     public String getEmail() {
@@ -75,4 +80,11 @@ public class User {
         this.cat = cat;
     }
 
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
+    }
 }

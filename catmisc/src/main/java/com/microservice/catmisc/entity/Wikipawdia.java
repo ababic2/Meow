@@ -24,11 +24,11 @@ public class Wikipawdia {
 
     public Wikipawdia(Long id, List<Article> articles) {
         this.id = id;
-        this.articles = articles;
+//        this.articles = articles;
     }
 
-    @OneToMany( mappedBy = "wikipawdia")
-    private List<Article> articles= new ArrayList<>();
+//    @OneToMany( mappedBy = "wikipawdia")
+//    private List<Article> articles= new ArrayList<>();
 
 
 }

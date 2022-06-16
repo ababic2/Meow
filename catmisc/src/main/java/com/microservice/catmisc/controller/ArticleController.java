@@ -64,9 +64,8 @@ public class ArticleController {
         Article updateArticle = articleRepository.findById(id).get();
 
         updateArticle.setTitle(article.getTitle());
-        updateArticle.setCatBreed(article.getCatBreed());
         updateArticle.setContent(article.getContent());
-        updateArticle.setWikipawdia(article.getWikipawdia());
+//        updateArticle.setWikipawdia(article.getWikipawdia());
 
         try{
             articleRepository.save(updateArticle);
