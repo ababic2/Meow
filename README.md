@@ -7,6 +7,9 @@ Javdan Zehra (18456/1985)
 ## Frontend APP (React)
 https://github.com/ababic2/MeowFrontend
 
+## Presentation
+https://drive.google.com/drive/folders/1w11Oid4rBKQ9PfJh22izfJiqRrBCHWV5?usp=sharing
+
 
 # MeoW life 
 
